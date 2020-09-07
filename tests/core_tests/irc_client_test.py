@@ -287,7 +287,9 @@ class TestLineParsing:
     def test_parse_privmsg_ctcp_version(self, caplog):
         caplog.set_level(0)
         conn, _, proto = self.make_proto()
-        event = proto.parse_line(":sender!user@host PRIVMSG #channel :\1VERSION\1")
+        event = proto.parse_line(
+            ":sender!user@host PRIVMSG #channel :\1VERSION\1"
+        )
 
         assert self._filter_event(event) == {
             "irc_tags": None,
@@ -315,7 +317,9 @@ class TestLineParsing:
     def test_parse_privmsg_bad_ctcp(self, caplog):
         caplog.set_level(0)
         conn, _, proto = self.make_proto()
-        event = proto.parse_line(":sender!user@host PRIVMSG #channel :\1VERSION\1aa")
+        event = proto.parse_line(
+            ":sender!user@host PRIVMSG #channel :\1VERSION\1aa"
+        )
 
         assert self._filter_event(event) == {
             "chan": "#channel",
@@ -377,7 +381,9 @@ class TestLineParsing:
     def test_parse_pm_privmsg(self, caplog):
         caplog.set_level(0)
         conn, _, proto = self.make_proto()
-        event = proto.parse_line(":sender!user@host PRIVMSG me :this is a message")
+        event = proto.parse_line(
+            ":sender!user@host PRIVMSG me :this is a message"
+        )
 
         assert self._filter_event(event) == {
             "irc_tags": None,
@@ -414,7 +420,9 @@ class TestConnect:
                 "bind_port": 0,
             }
         }
-        client = irc.IrcClient(bot, "irc", "testconn", "foo", config=conn_config)
+        client = irc.IrcClient(
+            bot, "irc", "testconn", "foo", config=conn_config
+        )
         client.active = True
         return client
 

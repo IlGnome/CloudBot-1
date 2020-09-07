@@ -12,7 +12,7 @@ class MockClient(Client):  # pylint: disable=abstract-method
     _connected = False
 
     def __init__(self, bot, *args, **kwargs):
-        super().__init__(bot, 'TestClient', *args, **kwargs)
+        super().__init__(bot, "TestClient", *args, **kwargs)
         self.active = True
 
     @property
@@ -35,20 +35,18 @@ class FailingMockClient(MockClient):  # pylint: disable=abstract-method
 
 
 def test_client_no_config():
-    client = MockClient(
-        Bot(), 'foo', 'foobot', channels=['#foo']
-    )
-    assert client.config.get('a') is None
+    client = MockClient(Bot(), "foo", "foobot", channels=["#foo"])
+    assert client.config.get("a") is None
 
 
 def test_client():
     client = MockClient(
-        Bot(), 'foo', 'foobot', channels=['#foo'], config={'name': 'foo'}
+        Bot(), "foo", "foobot", channels=["#foo"], config={"name": "foo"}
     )
 
-    assert client.config_channels == ['#foo']
-    assert client.config['name'] == 'foo'
-    assert client.type == 'TestClient'
+    assert client.config_channels == ["#foo"]
+    assert client.config["name"] == "foo"
+    assert client.type == "TestClient"
 
     assert client.active is True
     client.active = False
@@ -59,17 +57,21 @@ def test_client():
 
 
 def test_client_connect_exc():
-    with patch('random.randrange', return_value=1):
+    with patch("random.randrange", return_value=1):
         client = FailingMockClient(
-            Bot(), 'foo', 'foobot', channels=['#foo'], config={'name': 'foo'},
-            fail_count=1
+            Bot(),
+            "foo",
+            "foobot",
+            channels=["#foo"],
+            config={"name": "foo"},
+            fail_count=1,
         )
         client.loop.run_until_complete(client.try_connect())
 
 
 def test_auto_reconnect():
     client = MockClient(
-        Bot(), 'foo', 'foobot', channels=['#foo'], config={'name': 'foo'}
+        Bot(), "foo", "foobot", channels=["#foo"], config={"name": "foo"}
     )
 
     client.active = False

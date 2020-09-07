@@ -11,8 +11,13 @@ class MockConn:
     def __init__(self, bot=None):
         self.name = "foo"
         self.memory = {
-            "server_info": {"statuses": {},},
-            "server_caps": {"userhost-in-names": True, "multi-prefix": True,},
+            "server_info": {
+                "statuses": {},
+            },
+            "server_caps": {
+                "userhost-in-names": True,
+                "multi-prefix": True,
+            },
         }
         self.nick = "BotFoo"
         self.bot = bot
@@ -22,7 +27,7 @@ class MockConn:
 
 
 def test_replace_user_data():
-    from plugins.core.chan_track import UsersDict, replace_user_data, Channel
+    from plugins.core.chan_track import Channel, UsersDict, replace_user_data
     from plugins.core.server_info import handle_prefixes
 
     conn = MockConn()
@@ -42,8 +47,12 @@ def test_replace_user_data():
 
     assert chan.users["foo"].user.mask == Prefix("foo", "bar", "baz")
     assert chan.users["foo1"].user.mask == Prefix("foo1", "bar", "baz")
-    assert chan.users["exampleuser"].user.mask == Prefix("ExampleUser", "bar", "baz")
-    assert chan.users["exampleuser2"].user.mask == Prefix("ExampleUser2", "bar", "baz")
+    assert chan.users["exampleuser"].user.mask == Prefix(
+        "ExampleUser", "bar", "baz"
+    )
+    assert chan.users["exampleuser2"].user.mask == Prefix(
+        "ExampleUser2", "bar", "baz"
+    )
 
     assert chan.users["foo"].status == conn.get_statuses("@+")
     assert chan.users["exampleuser"].status == conn.get_statuses("@")
@@ -52,18 +61,18 @@ def test_replace_user_data():
 
 
 def test_channel_members():
-    from plugins.core.server_info import handle_prefixes, handle_chan_modes
     from plugins.core.chan_track import (
-        get_users,
         get_chans,
-        replace_user_data,
-        on_nick,
+        get_users,
         on_join,
-        on_mode,
-        on_part,
         on_kick,
+        on_mode,
+        on_nick,
+        on_part,
         on_quit,
+        replace_user_data,
     )
+    from plugins.core.server_info import handle_chan_modes, handle_prefixes
 
     conn = MockConn()
     serv_info = conn.memory["server_info"]
@@ -132,8 +141,14 @@ NAMES_MOCK_TRAFFIC = [
 
 
 def test_names_handling():
-    from plugins.core.server_info import handle_prefixes, handle_chan_modes
-    from plugins.core.chan_track import on_join, on_part, on_kick, on_quit, on_names
+    from plugins.core.chan_track import (
+        on_join,
+        on_kick,
+        on_names,
+        on_part,
+        on_quit,
+    )
+    from plugins.core.server_info import handle_chan_modes, handle_prefixes
 
     handlers = {
         "JOIN": on_join,

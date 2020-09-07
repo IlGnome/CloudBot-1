@@ -14,7 +14,7 @@ class Reloader(ABC):
         self.event_handler = handler(self, patterns=[pattern])
         self.watch = None
 
-    def start(self, path='.'):
+    def start(self, path="."):
         self.watch = self.observer.schedule(
             self.event_handler, path=path, recursive=self.recursive
         )
@@ -46,7 +46,9 @@ class PluginReloader(Reloader):
         """
         path = Path(path).resolve()
         if path.exists():
-            async_util.run_coroutine_threadsafe(self._reload(path), self.bot.loop)
+            async_util.run_coroutine_threadsafe(
+                self._reload(path), self.bot.loop
+            )
 
     def unload(self, path):
         """
@@ -72,7 +74,9 @@ class PluginReloader(Reloader):
 
 class ConfigReloader(Reloader):
     def __init__(self, bot):
-        super().__init__(bot, ConfigEventHandler, "*{}".format(bot.config.filename))
+        super().__init__(
+            bot, ConfigEventHandler, "*{}".format(bot.config.filename)
+        )
 
     def reload(self, path):
         if self.bot.running:

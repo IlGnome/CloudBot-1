@@ -172,7 +172,9 @@ def test_attacks(attack):
         assert event.conn.message.called
 
     if not attack.require_target:
-        _, event = _do_test("attacks", "load_attacks", "attack_data", attack.name, None)
+        _, event = _do_test(
+            "attacks", "load_attacks", "attack_data", attack.name, None
+        )
 
         if attack.response is RespType.ACTION:  # pragma: no cover
             assert event.conn.action.called

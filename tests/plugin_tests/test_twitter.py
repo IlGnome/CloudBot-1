@@ -23,6 +23,7 @@ class MockConfig(Config):
 
 def test_twitter_url(mock_requests, unset_bot):
     from cloudbot.bot import bot
+
     bot.set(MagicMock())
 
     mock_conn = MagicMock()
@@ -33,7 +34,7 @@ def test_twitter_url(mock_requests, unset_bot):
     from plugins import twitter
 
     result = twitter.twitter_url(
-        twitter.TWITTER_RE.search('twitter.com/FakeUser/status/11235'),
+        twitter.TWITTER_RE.search("twitter.com/FakeUser/status/11235"),
         mock_conn,
     )
 
@@ -43,25 +44,27 @@ def test_twitter_url(mock_requests, unset_bot):
 
     with pytest.raises(tweepy.TweepError):
         twitter.twitter_url(
-            twitter.TWITTER_RE.search('twitter.com/FakeUser/status/11235'),
+            twitter.TWITTER_RE.search("twitter.com/FakeUser/status/11235"),
             mock_conn,
         )
 
     mock_requests.add(
-        'GET',
-        'https://api.twitter.com/1.1/statuses/show.json'
-        '?id=11235&tweet_mode=extended',
+        "GET",
+        "https://api.twitter.com/1.1/statuses/show.json"
+        "?id=11235&tweet_mode=extended",
         json={
-            "errors": [{
-                "message": "No status found with that ID.",
-                "code": 144,
-            }],
+            "errors": [
+                {
+                    "message": "No status found with that ID.",
+                    "code": 144,
+                }
+            ],
         },
         status=404,
     )
 
     result = twitter.twitter_url(
-        twitter.TWITTER_RE.search('twitter.com/FakeUser/status/11235'),
+        twitter.TWITTER_RE.search("twitter.com/FakeUser/status/11235"),
         mock_conn,
     )
 

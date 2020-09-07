@@ -10,7 +10,6 @@ Maintainer:
 License:
     Python Software Foundation License (PSF)
 """
-
 from time import time
 
 

@@ -14,7 +14,6 @@ Modified By:
 License:
     GPL v3
 """
-
 import base64
 import binascii
 

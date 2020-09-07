@@ -15,7 +15,11 @@ from tests.util import HookResult, wrap_hook_response
 def test_parse():
     assert cryptocurrency.ResponseStatus._fields != cryptocurrency.Quote._fields
     cryptocurrency.Platform(  # nosec
-        id=1, name="name", symbol="symbol", slug="slug", token_address="foobar",
+        id=1,
+        name="name",
+        symbol="symbol",
+        slug="slug",
+        token_address="foobar",
     )
     assert len(cryptocurrency.Platform._fields) == 5
     data = {
@@ -102,7 +106,14 @@ def init_response(
                         "elapsed": 1,
                         "credit_count": 1,
                     },
-                    "data": [{"id": 1, "name": "Dollar", "sign": "$", "symbol": "USD"}],
+                    "data": [
+                        {
+                            "id": 1,
+                            "name": "Dollar",
+                            "sign": "$",
+                            "symbol": "USD",
+                        }
+                    ],
                 },
             )
         )
@@ -129,7 +140,9 @@ def init_response(
                             "symbol": "BTC",
                             "circulating_supply": 100,
                             "total_supply": 1000,
-                            "date_added": (now - timedelta(days=5)).strftime(iso_fmt),
+                            "date_added": (now - timedelta(days=5)).strftime(
+                                iso_fmt
+                            ),
                             "num_market_pairs": 1,
                             "cmc_rank": 1,
                             "last_updated": (now - timedelta(hours=1)).strftime(
@@ -210,7 +223,8 @@ def test_complex_schema():
 
 def test_invalid_schema_type():
     with pytest.raises(
-        TypeError, match="field 'a' expected type <class 'str'>, got type <class 'int'>"
+        TypeError,
+        match="field 'a' expected type <class 'str'>, got type <class 'int'>",
     ):
         cryptocurrency.read_data({"a": 1, "b": "world"}, OtherConcreteSchema)
 
@@ -233,14 +247,18 @@ def test_schema_nested_exceptions():
         cryptocurrency.read_data({"a": {"b": "hello"}}, NestedSchema)
 
     assert isinstance(exc.value.__cause__, cryptocurrency.ParseError)
-    assert isinstance(exc.value.__cause__.__cause__, cryptocurrency.MissingSchemaField)
+    assert isinstance(
+        exc.value.__cause__.__cause__, cryptocurrency.MissingSchemaField
+    )
 
 
 def test_schema_unknown_fields():
     input_data = {"a": {"a": "hello", "b": "world"}, "c": 1}
     with pytest.warns(
         UserWarning,
-        match=re.escape("Unknown fields: ['c'] while parsing schema 'NestedSchema'"),
+        match=re.escape(
+            "Unknown fields: ['c'] while parsing schema 'NestedSchema'"
+        ),
     ):
         obj = cryptocurrency.read_data(input_data, NestedSchema)
 
@@ -407,7 +425,9 @@ def test_cmd_api_error(mock_requests):
     with pytest.raises(cryptocurrency.APIError, match="FooBar"):
         wrap_hook_response(cryptocurrency.crypto_command, event, res)
 
-    assert res == [HookResult("message", ("#foo", "(foobaruser) Unknown API error"))]
+    assert res == [
+        HookResult("message", ("#foo", "(foobaruser) Unknown API error"))
+    ]
 
 
 def test_list_currencies(patch_paste, mock_requests):

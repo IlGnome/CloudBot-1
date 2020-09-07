@@ -42,7 +42,10 @@ video_data = {
                 "tags": ["a tag"],
                 "categoryId": "24",
                 "liveBroadcastContent": "none",
-                "localized": {"title": "some title", "description": "a description"},
+                "localized": {
+                    "title": "some title",
+                    "description": "a description",
+                },
                 "defaultAudioLanguage": "en",
             },
             "contentDetails": {
@@ -89,7 +92,10 @@ class TestGetVideoDescription:
             self.api_url.format(id="foobar", key="APIKEY"),
             match_querystring=True,
             json={
-                "error": {"code": 500, "errors": [{"domain": "foo", "reason": "bar"}],},
+                "error": {
+                    "code": 500,
+                    "errors": [{"domain": "foo", "reason": "bar"}],
+                },
             },
             status=500,
         )
@@ -209,7 +215,10 @@ class TestGetVideoDescription:
             self.api_url.format(id="foobar", key="APIKEY"),
             match_querystring=True,
             json={
-                "error": {"code": 500, "errors": [{"domain": "foo", "reason": "bar"}],}
+                "error": {
+                    "code": 500,
+                    "errors": [{"domain": "foo", "reason": "bar"}],
+                }
             },
             status=500,
         )

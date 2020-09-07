@@ -60,11 +60,15 @@ def get_server_info(conn):
     return conn.memory["server_info"]
 
 
-def get_status_modes(serv_info, *, clear: bool = False) -> Dict[str, StatusMode]:
+def get_status_modes(
+    serv_info, *, clear: bool = False
+) -> Dict[str, StatusMode]:
     return _get_set_clear(serv_info, "statuses", dict, clear=clear)
 
 
-def get_channel_modes(serv_info, *, clear: bool = False) -> Dict[str, ChannelMode]:
+def get_channel_modes(
+    serv_info, *, clear: bool = False
+) -> Dict[str, ChannelMode]:
     return _get_set_clear(serv_info, "channel_modes", dict, clear=clear)
 
 

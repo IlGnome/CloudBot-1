@@ -1,7 +1,6 @@
 """
 Wraps various asyncio functions
 """
-
 import asyncio
 import sys
 from asyncio import AbstractEventLoop
