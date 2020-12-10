@@ -1,4 +1,7 @@
 {
+	"templates":[
+		"{target} was stabbed in the {body_parts} with a {descriptors} {weapons}!"
+	],
 	"body_parts":[ "abdomen",
 					"Adam's apple",
 					"ankle",
@@ -63,8 +66,7 @@
 					"trachea",
 					"uvula",
 					"waist",
-					"wrist"
-					
+					"wrist"					
 ],
 	"weapons":[
 				"axe",
@@ -166,4 +168,5 @@
 				"useless",
 				"wooden"
 ]
+}
 }
